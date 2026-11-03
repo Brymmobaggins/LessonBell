@@ -1,0 +1,19 @@
+/** @format */
+
+@import "tailwindcss";
+
+@theme {
+  /* `#202522` | Text | */
+  --color-charcoal: #202522;
+}
+
+
+
+.material-symbols-outlined {
+  font-variation-settings: 'wght' 300, 'FILL' 0; 
+}
+
+
+.icon-filled {
+  font-variation-settings: 'FILL' 1;
+}

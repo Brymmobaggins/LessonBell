@@ -1,8 +1,0 @@
-/** @format */
-
-@import "tailwindcss";
-
-@theme {
-  /* `#202522` | Text | */
-  --color-charcoal: #202522;
-}
