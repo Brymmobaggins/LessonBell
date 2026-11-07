@@ -14,10 +14,11 @@ export function renderTimetableBody() {
 
   schoolDays.forEach((day) => {
     const tr = document.createElement("tr");
+   
 
     const th = document.createElement("th");
 
-    th.className = "border border-gray-300 px-4 py-3 text-center";
+    th.className = "border border-gray-300 px-4 py-3 text-center wrap";
     th.textContent = day;
 
     tr.appendChild(th);

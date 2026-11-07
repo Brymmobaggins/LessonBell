@@ -1,10 +1,7 @@
-
 /** @format */
 
 export function showScreen(screenId) {
-  const screens = document.querySelectorAll(
-    "main > section"
-  );
+  const screens = document.querySelectorAll("main > section");
 
   screens.forEach((screen) => {
     screen.classList.add("hidden");
@@ -20,4 +17,10 @@ export function showScreen(screenId) {
 
   activeScreen.classList.remove("hidden");
   activeScreen.classList.add("flex");
+
+  document.dispatchEvent(
+    new CustomEvent("screenchange", {
+      detail: screenId,
+    }),
+  );
 }

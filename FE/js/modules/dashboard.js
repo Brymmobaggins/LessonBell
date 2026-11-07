@@ -4,6 +4,30 @@ import { getTeacherProfile, getWeeklyLessons } from "../services/storage.js";
 import { showScreen } from "./navigation.js";
 import { convertTimeToMinutes } from "../utils.js";
 
+
+
+let dashboardUpdateInterval = null;
+
+export function startDashboardUpdates() {
+  if (dashboardUpdateInterval !== null) return;
+
+  console.log("Dashboard timer started");
+  dashboardUpdateInterval = setInterval(() => {
+    renderDashboardStats();
+
+    renderNextLesson();
+    console.log("Refreshing dashboard...");
+
+    renderTodaySchedule();
+  }, 30000);
+}
+
+export function stopDashboardUpdates() {
+  clearInterval(dashboardUpdateInterval)
+  dashboardUpdateInterval = null
+  console.log("Dashboard timer stopped");
+}
+
 export function displayTeacherDashboard() {
   const teacherProfile = getTeacherProfile();
 
@@ -31,7 +55,10 @@ export function displayTeacherDashboard() {
 
   renderTodaySchedule();
 
+
+
   showScreen("teacherDashboardScreen");
+
 }
 
 export function initializeDashboard() {
@@ -61,15 +88,6 @@ export function renderNextLesson() {
 
     return lessonAStart - lessonBStart;
   });
-  console.table(
-    todayLessonsArr.map((lesson) => ({
-      subject: lesson.subject,
-      startTime: lesson.startTime,
-      endTime: lesson.endTime,
-      startMinutes: convertTimeToMinutes(lesson.startTime),
-      endMinutes: convertTimeToMinutes(lesson.endTime),
-    })),
-  );
 
   const now = new Date();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
@@ -88,7 +106,6 @@ export function renderNextLesson() {
     todayLessonsArr.find((lesson) => {
       return convertTimeToMinutes(lesson.startTime) > currentMinutes;
     });
-
 
   const nextLessonDetails = document.getElementById("nextLessonDetails");
   const noUpcomingLesson = document.getElementById("noUpcomingLesson");
@@ -126,7 +143,7 @@ export function renderNextLesson() {
 
   const nextLessonStatus = document.getElementById("nextLessonStatus");
 
-  if(!nextLessonStatus) return
+  if (!nextLessonStatus) return;
 
   nextLessonStatus.textContent = currentLesson
     ? "Currently in Progress"
@@ -223,3 +240,12 @@ export function renderDashboardStats() {
   todayLessonCount.textContent = todayLessons.length;
   weeklyLessonCount.textContent = weekyLessons.length;
 }
+
+
+document.addEventListener("screenchange", (event) => {
+  if (event.detail === "teacherDashboardScreen") {
+    startDashboardUpdates();
+  } else {
+    stopDashboardUpdates();
+  }
+});
