@@ -5,6 +5,7 @@ import { initializeOnboarding } from "./modules/onboarding.js";
 import { initializeSplashScreen } from "./modules/splash.js";
 import { initializeTeacherProfile } from "./modules/teacherProfile.js";
 import { initializeTimetable } from "./modules/timeTable.js";
+import { initializeDashboard } from "./modules/dashboard.js";
 
 showScreen("splashScreen");
 initializeSplashScreen();
@@ -12,8 +13,6 @@ initializeSplashScreen();
 initializeOnboarding();
 initializeTeacherProfile();
 
-initializeTimetable()
-// showScreen("teacherDashboardScreen");
+initializeTimetable();
 
-
-// showScreen("timetableScreen");
+initializeDashboard();

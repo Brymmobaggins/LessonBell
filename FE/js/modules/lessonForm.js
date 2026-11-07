@@ -2,13 +2,12 @@
 
 import { getWeeklyLessons, saveWeeklyLessons } from "../services/storage.js";
 import { closeLessonFormModal } from "./lessonModal.js";
-import { renderTimetableBody } from "./timeTableRenderer.js";
+import { renderTimetableBody, updateTimetableVisibility } from "./timeTableRenderer.js";
 import { teachingPeriods } from "./schoolPeriods.js";
 
 export function initializeLessonForm() {
   // Your implementation
   const addLessonForm = document.getElementById("addLessonForm");
-
 
   teachingPeriods.forEach((period) => {
     const optionElement = document.createElement("option");
@@ -19,7 +18,6 @@ export function initializeLessonForm() {
 
     lessonPeriod.appendChild(optionElement);
   });
-  
 
   if (addLessonForm) {
     addLessonForm.addEventListener("submit", (event) => {
@@ -68,6 +66,8 @@ export function initializeLessonForm() {
       weeklyLessons.push(lessonRecord);
 
       saveWeeklyLessons(weeklyLessons);
+
+      updateTimetableVisibility();
 
       document.getElementById("emptyTimetableState").classList.add("hidden");
 

@@ -1,16 +1,16 @@
 /** @format */
 
 import { showScreen } from "./navigation.js";
-import {
-  renderTimetableHeader,
-} from "./timeTableRenderer.js";
+import { renderTimetableHeader } from "./timeTableRenderer.js";
 import { initializeLessonForm } from "./lessonForm.js";
+import {updateTimetableVisibility,renderTimetableBody} from "./timeTableRenderer.js"
 
 import { openLessonFormModal, closeLessonFormModal } from "./lessonModal.js";
 
 export function initializeTimetable() {
   const addTimetableBtn = document.getElementById("addTimetableBtn");
   const addFirstLessonBtn = document.getElementById("addFirstLessonBtn");
+  const addLessonBtn = document.getElementById("addLessonBtn");
   const cancelAddLessonBtn = document.getElementById("cancelAddLessonBtn");
 
   if (addTimetableBtn) {
@@ -19,6 +19,11 @@ export function initializeTimetable() {
     });
   }
 
+  if (addLessonBtn) {
+    addLessonBtn.addEventListener("click", () => {
+      openLessonFormModal();
+    });
+  }
   if (addFirstLessonBtn) {
     addFirstLessonBtn.addEventListener("click", () => {
       openLessonFormModal();
@@ -31,10 +36,15 @@ export function initializeTimetable() {
     });
   }
 
+  const hasLessons = updateTimetableVisibility();
 
   renderTimetableHeader();
 
- initializeLessonForm()
+  if (hasLessons) {
+    renderTimetableBody();
+  }
 
- 
+  renderTimetableHeader();
+
+  initializeLessonForm();
 }

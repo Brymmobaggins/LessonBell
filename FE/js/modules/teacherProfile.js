@@ -9,11 +9,15 @@ export function initializeTeacherProfile() {
 
   if (teacherSetupForm) {
     teacherSetupForm.addEventListener("submit", () => {
+
+      event.preventDefault()
+
+
       const teacherName = document.getElementById("teacherName").value.trim();
       const schoolName = document.getElementById("schoolName").value.trim();
 
       if (!teacherName || !schoolName) {
-        return alert("Helllooo");
+        return alert("Please enter your name and school name");
       }
 
       const teacherProfile = {

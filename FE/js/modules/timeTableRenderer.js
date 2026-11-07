@@ -82,3 +82,18 @@ export function renderTimetableHeader() {
 
   weeklyTimetableHeader.appendChild(headerRow);
 }
+export function updateTimetableVisibility() {
+  const emptyState = document.getElementById("emptyTimetableState");
+  const timetableContainer = document.getElementById(
+    "weeklyTimetableContainer"
+  );
+
+  const weeklyLessons = getWeeklyLessons() ?? [];
+
+  const hasLessons = weeklyLessons.length > 0;
+
+  emptyState.classList.toggle("hidden", hasLessons);
+  timetableContainer.classList.toggle("hidden", !hasLessons);
+
+  return hasLessons;
+}
