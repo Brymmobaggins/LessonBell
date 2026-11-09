@@ -1,7 +1,10 @@
 <!-- @format -->
 
 <!doctype html>
-<html lang="en" class="font-roboto tracking-tight text-charcoal text-sm sm:text-base">
+<html
+  lang="en"
+  class="font-roboto tracking-tight text-charcoal text-sm sm:text-base"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -59,7 +62,7 @@
         <button
           type="button"
           id="getStartedBtn"
-          class="mt-8 rounded-xl bg-gray-800 px-8 py-4 text-white transition-colors duration-200 hover:bg-gray-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800 cursor-pointer"
+          class="mt-8 font-semibold rounded-xl bg-gray-800 px-8 py-4 text-white transition-colors duration-200 hover:bg-gray-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800 cursor-pointer"
         >
           Get Started
         </button>
@@ -84,14 +87,14 @@
           >
             <!-- Teacher Name -->
             <div>
-              <label for="teacherName" class="block mb-1 text-sm">
+              <label for="teacherName" class="block mb-1 text-sm font-semibold">
                 Your Name
               </label>
 
               <input
                 type="text"
                 id="teacherName"
-                placeholder="e.g. Mr. Bakare"
+                placeholder="e.g. Mr. Bakare Ibrahim"
                 required
                 class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-gray-800"
               />
@@ -99,14 +102,27 @@
 
             <!-- School Name -->
             <div>
-              <label for="schoolName" class="block mb-1 text-sm">
+              <label for="schoolName" class="block mb-1 text-sm font-semibold">
                 School Name
               </label>
 
               <input
                 type="text"
                 id="schoolName"
-                placeholder="Enter your school name"
+                placeholder="e.g. Princeton College"
+                required
+                class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-gray-800"
+              />
+            </div>
+            <div>
+              <label for="subject" class="block mb-1 text-sm font-semibold">
+                Subject you teach
+              </label>
+
+              <input
+                type="text"
+                id="subject"
+                placeholder="e.g. Mathematices"
                 required
                 class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-gray-800"
               />
@@ -114,13 +130,13 @@
 
             <button
               type="submit"
-              class="w-full rounded-xl bg-gray-800 px-8 py-4 text-white hover:bg-gray-700 transition-colors"
+              class="w-full mt-2 font-semibold rounded-xl bg-gray-800 px-8 py-4 text-white hover:bg-gray-700 transition-colors cursor-pointer"
             >
               Continue
             </button>
           </form>
-          <p class="mt-2 text-center text-sx text-gray-600">
-            no account or password required
+          <p class="mt-4 text-center text-sm text-gray-600">
+            No account or password required
           </p>
         </div>
       </section>
@@ -142,10 +158,9 @@
                 class="mt-2 text-2xl font-semibold"
               ></h1>
 
-              <p
-                id="dashboardSchoolName"
-                class="text-sm text-gray-600"
-              ></p>
+              <p id="dashboardSchoolName" class="text-sm text-gray-600"></p>
+
+              <p id="dashboardteacherSubject" class="text-sm text-gray-600"></p>
             </div>
           </header>
 
@@ -177,7 +192,10 @@
               <!-- Lesson Details -->
               <div id="nextLessonDetails" class="hidden">
                 <span id="nextLessonStatus"></span>
-                <h3 id="nextLessonSubject" class="text-base sm:text-lg font-medium mt-2"></h3>
+                <h3
+                  id="nextLessonSubject"
+                  class="text-base sm:text-lg font-medium mt-2"
+                ></h3>
                 <p id="nextLessonClass" class="mt-1 text-sm text-gray-600"></p>
                 <p id="nextLessonTime" class="mt-3 text-sm font-medium"></p>
               </div>
@@ -202,15 +220,13 @@
             <div id="todayScheduleList" class="mt-2 space-y-3"></div>
           </div>
 
- 
-
           <!-- Navigation -->
           <button
             type="button"
             id="viewTimetableBtn"
-            class="mt-8 w-full rounded-xl bg-gray-800 px-6 py-4 text-white hover:bg-gray-700"
+            class="mt-8 w-full rounded-xl bg-gray-800 px-6 py-4 text-white hover:bg-gray-700 font-semibold text-sm sm:text-base cursor-pointer"
           >
-            View Weekly Timetable 
+            View Weekly Timetable
           </button>
         </div>
       </section>
@@ -235,7 +251,7 @@
             <button
               type="button"
               id="addLessonBtn"
-              class="inline-flex shrink-0 items-center gap-2 rounded-xl bg-gray-800 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-700 hover:cursor-pointer"
+              class="inline-flex shrink-0 items-center gap-2 rounded-xl bg-gray-800 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-700 cursor-pointer"
             >
               <span aria-hidden="true">+</span>
               Add Lesson
@@ -250,7 +266,9 @@
             <div class="flex flex-col items-center text-center">
               <span class="text-4xl" aria-hidden="true"> 📚 </span>
 
-              <h2 class="mt-5 text-lg font-semibold">Your timetable is empty</h2>
+              <h2 class="mt-5 text-lg font-semibold">
+                Your timetable is empty
+              </h2>
 
               <p class="mt-3 text-sm leading-6 text-gray-600">
                 Add your teaching periods to start receiving lesson reminders.
@@ -260,17 +278,22 @@
           <!-- Weekly Timetable Grid -->
           <div
             id="weeklyTimetableContainer"
-            class="mt-8 hidden w-full overflow-hidden rounded-xl border border-gray-200"
+            class="mt-8 hidden w-full rounded-xl border border-gray-200"
           >
             <!-- DeskTop and tablet timetable -->
-            <div id="desktopTimetableView" class="hidden md:block">
+            <div
+              id="desktopTimetableView"
+              class="hidden md:block overflow-x-auto"
+              tabindex="0"
+              aria-label="Weekly timetable. Scroll horizontally to view all periods."
+            >
               <table
-                class="w-full table-fixed border-collapse text-xs sm:text-sm"
+                class="w-full min-w-[1410px] table-fixed border-collapse text-xs sm:text-sm"
               >
-                <thead id="weeklyTimetableHeader" class="text-white bg-gray-600"></thead>
+                <thead id="weeklyTimetableHeader" class=""></thead>
                 <tbody id="weeklyTimetableBody"></tbody>
               </table>
-
+            </div>
             <!-- mobile view -->
 
             <div id="mobileTimetableView" class="md:hidden p-4">
@@ -278,7 +301,7 @@
               <div class="mb-5">
                 <label
                   for="mobileDaySelect"
-                  class="block mb-2 text-sm font-medium"
+                  class="block mb-2 text-sm font-semibold"
                 >
                   Select a day
                 </label>
@@ -310,51 +333,109 @@
               <form id="addLessonForm" class="mt-8 space-y-5">
                 <!-- Subject -->
                 <div>
-                  <label for="subject" class="mb-2 block text-sm">
+                  <label
+                    for="lessonSubject"
+                    class="mb-2 block text-sm font-semibold"
+                  >
                     Subject
                   </label>
                   <select
-                    id="subject"
+                    id="lessonSubject"
                     name="subject"
                     required
-                    class="w-full rounded-xl border border-gray-300 bg-white outline-none focus:border-gray-800 px-2 py-3"
+                    class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 bg-white outline-none focus:border-gray-800 px-2 py-3"
                   >
-                    <option disabled selected>Select your subject</option>
+                    <option disabled selected value="">
+                      Select your subject
+                    </option>
 
-                    <option value="Basic Science">Basic Science</option>
-                    <option value="Biology">Biology</option>
-                    <option value="Business studies">Business studies</option>
-                    <option value="Civic Education">Civic Education</option>
-                    <option value="Computer Studies / Digital Technologies">
-                      Computer Studies / Digital Technologies
-                    </option>
-                    <option value="Chemistry">Chemistry</option>
-                    <option value="Cultural and Creative Arts (CCA)">
-                      Cultural and Creative Arts (CCA)
-                    </option>
-                    <option value="English Language">English Language</option>
-                    <option value="Mathematices">Mathematices</option>
-                    <option value=" French">
-                      French
-                      <!-- <option value="Grade 8 Faith">Grade 8 Faith</option>
-                <option value="Grade 9 Wisdom">Grade 9 Wisdom</option>
-                <option value="Grade 9 Honesty">Grade 9 Wisdom</option>
-                <option value="Grade 9 Knowledge">Grade 9 Knowledge</option>
-                <option value="Grade 9 Grace">Grade 9 Grace</option>
-                <option value="Grade 9 Excellence">Grade 9 Excellence</option>
-                <option value="Grade 9 Faith">Grade 9 Faith</option> -->
-                    </option>
+                    <optgroup label="Core Subjects (Junior & Senior)">
+                      <option value="Agricultural Science">
+                        Agricultural Science
+                      </option>
+                      <option value="Christian Religious Studies (CRS)">
+                        Christian Religious Studies (CRS)
+                      </option>
+                      <option value="Civic Education">Civic Education</option>
+                      <option value="Computer Studies / Digital Technologies">
+                        Computer Studies / Digital Technologies
+                      </option>
+                      <option value="English Language">English Language</option>
+                      <option value="French">French</option>
+                      <option value="Hausa">Hausa</option>
+                      <option value="History">History</option>
+                      <option value="Igbo">Igbo</option>
+                      <option value="Islamic Studies">Islamic Studies</option>
+                      <option value="Mathematics">Mathematics</option>
+                      <option value="Nigerian History">Nigerian History</option>
+                      <option value="Yoruba">Yoruba</option>
+                    </optgroup>
+
+                    <optgroup label="Junior Secondary (JSS 1–3)">
+                      <option value="Basic Science">Basic Science</option>
+                      <option value="Business Studies">Business Studies</option>
+                      <option value="Cultural and Creative Arts (CCA)">
+                        Cultural and Creative Arts (CCA)
+                      </option>
+                      <option value="English Studies">English Studies</option>
+                      <option value="Home Economics">Home Economics</option>
+                      <option value="Music">Music</option>
+                      <option value="Physical and Health Education (PHE)">
+                        Physical and Health Education (PHE)
+                      </option>
+                      <option value="Security Education">
+                        Security Education
+                      </option>
+                      <option value="Social Studies">Social Studies</option>
+                    </optgroup>
+
+                    <optgroup label="Senior Secondary (SSS 1–3)">
+                      <option value="Biology">Biology</option>
+                      <option value="Book Keeping">Book Keeping</option>
+                      <option value="Catering and Craft Practice">
+                        Catering and Craft Practice
+                      </option>
+                      <option value="Chemistry">Chemistry</option>
+                      <option value="Commerce">Commerce</option>
+                      <option value="Data Processing">Data Processing</option>
+                      <option value="Economics">Economics</option>
+                      <option value="Fashion and Garment Making">
+                        Fashion and Garment Making
+                      </option>
+                      <option value="Financial Accounting">
+                        Financial Accounting
+                      </option>
+                      <option value="Food and Nutrition">
+                        Food and Nutrition
+                      </option>
+                      <option value="Further Mathematics">
+                        Further Mathematics
+                      </option>
+                      <option value="Geography">Geography</option>
+                      <option value="Government">Government</option>
+                      <option value="Literature-in-English">
+                        Literature-in-English
+                      </option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Physics">Physics</option>
+                      <option value="Technical Drawing">
+                        Technical Drawing
+                      </option>
+                    </optgroup>
                   </select>
                 </div>
                 <div>
-                  <label for="lessonDay" class="mb-2 block text-sm">
+                  <label
+                    for="lessonDay"
+                    class="mb-2 block text-sm font-semibold"
+                  >
                     Teaching Day
                   </label>
                   <select
                     id="lessonDay"
                     name="day"
                     required
-                    class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:border-gray-800"
+                    class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:border-gray-800"
                   >
                     <option value="">Select a day</option>
                     <option value="Monday">Monday</option>
@@ -367,52 +448,109 @@
 
                 <!-- class-->
                 <div>
-                  <label for="lessonClass" class="mb-2 block text-sm">
+                  <label
+                    for="lessonClass"
+                    class="mb-2 block text-sm font-semibold"
+                  >
                     Class
                   </label>
                   <select
                     id="lessonClass"
-                    name="day"
+                    name="lessonClass"
                     required
-                    class="w-full rounded-xl border border-gray-300 bg-white outline-none focus:border-gray-800 px-2 py-3"
+                    class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 bg-white outline-none focus:border-gray-800 px-2 py-3"
                   >
-                    <option value="" disabled selected>Select a class</option>
-                    <option value="Grade 7 Wisdom">Grade 7 Wisdom</option>
-                    <option value="Grade 7 Honesty">Grade 7 Honesty</option>
-                    <option value="Grade 7 Knowledge">Grade 7 Knowledge</option>
-                    <option value="Grade 7 Grace">Grade 7 Grace</option>
-                    <option value="Grade 7 Excellence">
-                      Grade 7 Excellence
-                    </option>
-                    <option value="Grade 7 Faith">Grade 7 Faith</option>
-                    <option value="Grade 8 Wisdom">Grade 8 Wisdom</option>
-                    <option value="Grade 8 Honesty">Grade 8 Honesty</option>
-                    <option value="Grade 8 Knowledge">Grade 8 Knowledge</option>
-                    <option value="Grade 8 Grace">Grade 8 Grace</option>
-                    <option value="Grade 8 Excellence">
-                      Grade 8 Excellence
-                    </option>
-                    <option value="Grade 8 Faith">Grade 8 Faith</option>
-                    <option value="Grade 9 Wisdom">Grade 9 Wisdom</option>
-                    <option value="Grade 9 Honesty">Grade 9 Wisdom</option>
-                    <option value="Grade 9 Knowledge">Grade 9 Knowledge</option>
-                    <option value="Grade 9 Grace">Grade 9 Grace</option>
-                    <option value="Grade 9 Excellence">
-                      Grade 9 Excellence
-                    </option>
-                    <option value="Grade 9 Faith">Grade 9 Faith</option>
+                    <option disabled selected value="">Select a class</option>
+
+                    <optgroup label="Grade 7 (JSS 1)">
+                      <option value="Grade 7 Wisdom">Grade 7 Wisdom</option>
+                      <option value="Grade 7 Honesty">Grade 7 Honesty</option>
+                      <option value="Grade 7 Knowledge">
+                        Grade 7 Knowledge
+                      </option>
+                      <option value="Grade 7 Grace">Grade 7 Grace</option>
+                      <option value="Grade 7 Excellence">
+                        Grade 7 Excellence
+                      </option>
+                      <option value="Grade 7 Faith">Grade 7 Faith</option>
+                    </optgroup>
+
+                    <optgroup label="Grade 8 (JSS 2)">
+                      <option value="Grade 8 Wisdom">Grade 8 Wisdom</option>
+                      <option value="Grade 8 Honesty">Grade 8 Honesty</option>
+                      <option value="Grade 8 Knowledge">
+                        Grade 8 Knowledge
+                      </option>
+                      <option value="Grade 8 Grace">Grade 8 Grace</option>
+                      <option value="Grade 8 Excellence">
+                        Grade 8 Excellence
+                      </option>
+                    </optgroup>
+
+                    <optgroup label="Grade 9 (JSS 3)">
+                      <option value="Grade 9 Wisdom">Grade 9 Wisdom</option>
+                      <option value="Grade 9 Honesty">Grade 9 Honesty</option>
+                      <option value="Grade 9 Knowledge">
+                        Grade 9 Knowledge
+                      </option>
+                      <option value="Grade 9 Grace">Grade 9 Grace</option>
+                      <option value="Grade 9 Excellence">
+                        Grade 9 Excellence
+                      </option>
+                    </optgroup>
+
+                    <optgroup label="Grade 10 (SSS 1)">
+                      <option value="Grade 10 Science">
+                        Grade 10 Science Honesty
+                      </option>
+                      <option value="Grade 10 Science Wisdom">
+                        Grade 10 Science Wisdom
+                      </option>
+                      <option value="Grade 10 Science Grace">
+                        Grade 10 Science Grace
+                      </option>
+                      <option value="Grade 10 Art">Grade 10 Art & Comm</option>
+                    </optgroup>
+
+                    <optgroup label="Grade 11 (SSS 2)">
+                      <option value="Grade 11 Science">
+                        Grade 11 Science Honesty
+                      </option>
+                      <option value="Grade 11 Science Wisdom">
+                        Grade 11 Science Wisdom
+                      </option>
+                      <option value="Grade 11 Science Grace">
+                        Grade 11 Science Grace
+                      </option>
+                      <option value="Grade 11 Art">Grade 11 Art</option>
+                    </optgroup>
+
+                    <optgroup label="Grade 12 (SSS 3)">
+                      <option value="Grade 12 Science">
+                        Grade 12 Science Honesty
+                      </option>
+                      <option value="Grade 12 Science Wisdom">
+                        Grade 12 Science Wisdom
+                      </option>
+                      <option value="Grade 12 Science Grace">
+                        Grade 12 Science Grace
+                      </option>
+                      <option value="Grade 12 Art">Grade 12 Art</option>
+                    </optgroup>
                   </select>
                 </div>
 
                 <div>
-                  <label for="lessonPeriod" class="mb-2 block text-sm"
+                  <label
+                    for="lessonPeriod"
+                    class="mb-2 block text-sm font-semibold"
                     >Lesson Period
                   </label>
                   <select
                     id="lessonPeriod"
                     name="period"
                     required
-                    class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:border-gray-800"
+                    class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:border-gray-800"
                   >
                     <option disabled selected>Select a teaching period</option>
                   </select>
@@ -423,14 +561,14 @@
                   <button
                     id="cancelAddLessonBtn"
                     type="button"
-                    class="flex-1 rounded-xl border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-100"
+                    class="flex-1 text-xs sm:text-base font-semibold rounded-xl border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-100 cursor-pointer"
                   >
                     Cancel
                   </button>
 
                   <button
                     type="submit"
-                    class="flex-1 rounded-xl bg-gray-800 px-4 py-3 text-white transition-colors hover:bg-gray-700"
+                    class="flex-1 text-xs sm:text-base font-semibold rounded-xl bg-gray-800 px-4 py-3 text-white transition-colors hover:bg-gray-700 cursor-pointer"
                   >
                     Save Lesson
                   </button>

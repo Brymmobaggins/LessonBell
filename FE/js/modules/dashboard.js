@@ -4,8 +4,6 @@ import { getTeacherProfile, getWeeklyLessons } from "../services/storage.js";
 import { showScreen } from "./navigation.js";
 import { convertTimeToMinutes } from "../utils.js";
 
-
-
 let dashboardUpdateInterval = null;
 
 export function startDashboardUpdates() {
@@ -23,8 +21,8 @@ export function startDashboardUpdates() {
 }
 
 export function stopDashboardUpdates() {
-  clearInterval(dashboardUpdateInterval)
-  dashboardUpdateInterval = null
+  clearInterval(dashboardUpdateInterval);
+  dashboardUpdateInterval = null;
   console.log("Dashboard timer stopped");
 }
 
@@ -37,10 +35,14 @@ export function displayTeacherDashboard() {
 
   const teacherName = document.getElementById("dashboardTeacherName");
   const schoolName = document.getElementById("dashboardSchoolName");
+  const teacherSubject = document.getElementById("dashboardteacherSubject");
   const currentDate = document.getElementById("dashboardCurrentDate");
 
+  teacherName.classList.add("uppercase");
   teacherName.textContent = teacherProfile.name;
   schoolName.textContent = teacherProfile.school;
+  teacherSubject.textContent =
+    teacherProfile.subject || "Subject not specified";
 
   currentDate.textContent = new Date().toLocaleDateString("en-NG", {
     weekday: "long",
@@ -55,10 +57,7 @@ export function displayTeacherDashboard() {
 
   renderTodaySchedule();
 
-
-
   showScreen("teacherDashboardScreen");
-
 }
 
 export function initializeDashboard() {
@@ -240,7 +239,6 @@ export function renderDashboardStats() {
   todayLessonCount.textContent = todayLessons.length;
   weeklyLessonCount.textContent = weekyLessons.length;
 }
-
 
 document.addEventListener("screenchange", (event) => {
   if (event.detail === "teacherDashboardScreen") {

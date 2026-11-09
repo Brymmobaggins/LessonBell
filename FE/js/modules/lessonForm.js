@@ -8,6 +8,7 @@ import { teachingPeriods } from "./schoolPeriods.js";
 export function initializeLessonForm() {
   // Your implementation
   const addLessonForm = document.getElementById("addLessonForm");
+ const lessonPeriod = document.getElementById("lessonPeriod");
 
   teachingPeriods.forEach((period) => {
     const optionElement = document.createElement("option");
@@ -23,11 +24,12 @@ export function initializeLessonForm() {
     addLessonForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      const lessonSubject = document.getElementById("subject").value;
+      const lessonSubject = document.getElementById("lessonSubject").value;
       const lessonClass = document.getElementById("lessonClass").value;
       const lessonDay = document.getElementById("lessonDay").value;
       const lessonPeriod = document.getElementById("lessonPeriod");
 
+     
       const selectedPeriodId = Number(lessonPeriod.value);
 
       const weeklyLessons = getWeeklyLessons() ?? [];
@@ -69,11 +71,11 @@ export function initializeLessonForm() {
 
       updateTimetableVisibility();
 
-      document.getElementById("emptyTimetableState").classList.add("hidden");
+    //   document.getElementById("emptyTimetableState").classList.add("hidden");
 
-      document
-        .getElementById("weeklyTimetableContainer")
-        .classList.remove("hidden");
+    //   document
+    //     .getElementById("weeklyTimetableContainer")
+    //     .classList.remove("hidden");
 
       renderTimetableBody();
 
