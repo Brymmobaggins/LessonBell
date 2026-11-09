@@ -17,14 +17,11 @@ export function initializeTeacherProfile() {
       const schoolName = document.getElementById("schoolName").value.trim();
       const teacherSubject = document.getElementById("subject").value.trim();
 
-      if (!teacherName || !schoolName) {
-        return alert("Please enter your name and school name");
-      }
-
+     
       const teacherProfile = {
         name: teacherName,
         school: schoolName,
-        subject: teacherSubject + " Teacher"
+        subject: teacherSubject
       };
 
       saveTeacherProfile(teacherProfile);

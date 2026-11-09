@@ -38,11 +38,12 @@ export function displayTeacherDashboard() {
   const teacherSubject = document.getElementById("dashboardteacherSubject");
   const currentDate = document.getElementById("dashboardCurrentDate");
 
-  teacherName.classList.add("uppercase");
-  teacherName.textContent = teacherProfile.name;
+  teacherName.textContent = `Hi, ${teacherProfile.name.toUpperCase()}`;
   schoolName.textContent = teacherProfile.school;
-  teacherSubject.textContent =
-    teacherProfile.subject || "Subject not specified";
+
+  teacherSubject.textContent = teacherProfile.subject
+    ? `${teacherProfile.subject} Teacher`
+    : "Teacher";
 
   currentDate.textContent = new Date().toLocaleDateString("en-NG", {
     weekday: "long",
