@@ -47,7 +47,7 @@ export function renderMobileTimetable() {
     cardDiv.className = "rounded-xl border border-gray-200 bg-white p-4";
 
     const lessonMeta = document.createElement("div");
-    lessonMeta.className = "flex items-center justify-between gap-3";
+    lessonMeta.className = "flex flex-wrap items-center justify-between gap-3";
 
     const periodEl = document.createElement("span");
     periodEl.className = "text-sm font-semibold text-gray-500 uppercase bg-gray-100 rounded-xl px-2";
