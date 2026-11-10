@@ -6,6 +6,7 @@ import { initializeSplashScreen } from "./modules/splash.js";
 import { initializeTeacherProfile } from "./modules/teacherProfile.js";
 import { initializeTimetable } from "./modules/timeTable.js";
 import { initializeDashboard } from "./modules/dashboard.js";
+import { initializeMobileTimetable } from "./modules/mobileTimetable.js";
 
 showScreen("splashScreen");
 initializeSplashScreen();
@@ -16,3 +17,5 @@ initializeTeacherProfile();
 initializeTimetable();
 
 initializeDashboard();
+
+initializeMobileTimetable();

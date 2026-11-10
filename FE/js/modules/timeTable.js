@@ -3,7 +3,10 @@
 import { showScreen } from "./navigation.js";
 import { renderTimetableHeader } from "./timeTableRenderer.js";
 import { initializeLessonForm } from "./lessonForm.js";
-import {updateTimetableVisibility,renderTimetableBody} from "./timeTableRenderer.js"
+import {
+  updateTimetableVisibility,
+  renderTimetableBody,
+} from "./timeTableRenderer.js";
 
 import { openLessonFormModal, closeLessonFormModal } from "./lessonModal.js";
 

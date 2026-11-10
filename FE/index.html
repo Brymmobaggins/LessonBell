@@ -115,17 +115,77 @@
               />
             </div>
             <div>
-              <label for="subject" class="block mb-1 text-sm font-semibold">
-                Subject you teach
+              <label for="subject" class="mb-2 block text-sm font-semibold">
+                Subject
               </label>
-
-              <input
-                type="text"
+              <select
                 id="subject"
-                placeholder="e.g. Mathematices"
+                name="subject"
                 required
-                class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-gray-800"
-              />
+                class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 bg-white outline-none focus:border-gray-800 px-2 py-3"
+              >
+                <option disabled selected value="">Select your subject</option>
+
+                <option value="Agricultural Science">
+                  Agricultural Science
+                </option>
+                <option value="Christian Religious Studies (CRS)">
+                  Christian Religious Studies (CRS)
+                </option>
+                <option value="Civic Education">Civic Education</option>
+                <option value="Computer Studies / Digital Technologies">
+                  Computer Studies / Digital Technologies
+                </option>
+                <option value="English Language">English Language</option>
+                <option value="French">French</option>
+                <option value="Hausa">Hausa</option>
+                <option value="History">History</option>
+                <option value="Igbo">Igbo</option>
+                <option value="Islamic Studies">Islamic Studies</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Nigerian History">Nigerian History</option>
+                <option value="Yoruba">Yoruba</option>
+
+                <option value="Basic Science">Basic Science</option>
+                <option value="Business Studies">Business Studies</option>
+                <option value="Cultural and Creative Arts (CCA)">
+                  Cultural and Creative Arts (CCA)
+                </option>
+                <option value="English Studies">English Studies</option>
+                <option value="Home Economics">Home Economics</option>
+                <option value="Music">Music</option>
+                <option value="Physical and Health Education (PHE)">
+                  Physical and Health Education (PHE)
+                </option>
+                <option value="Security Education">Security Education</option>
+                <option value="Social Studies">Social Studies</option>
+
+                <option value="Biology">Biology</option>
+                <option value="Book Keeping">Book Keeping</option>
+                <option value="Catering and Craft Practice">
+                  Catering and Craft Practice
+                </option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Commerce">Commerce</option>
+                <option value="Data Processing">Data Processing</option>
+                <option value="Economics">Economics</option>
+                <option value="Fashion and Garment Making">
+                  Fashion and Garment Making
+                </option>
+                <option value="Financial Accounting">
+                  Financial Accounting
+                </option>
+                <option value="Food and Nutrition">Food and Nutrition</option>
+                <option value="Further Mathematics">Further Mathematics</option>
+                <option value="Geography">Geography</option>
+                <option value="Government">Government</option>
+                <option value="Literature-in-English">
+                  Literature-in-English
+                </option>
+                <option value="Marketing">Marketing</option>
+                <option value="Physics">Physics</option>
+                <option value="Technical Drawing">Technical Drawing</option>
+              </select>
             </div>
 
             <button
@@ -160,7 +220,10 @@
 
               <p id="dashboardSchoolName" class="text-sm text-gray-600"></p>
 
-              <h2 id="dashboardteacherSubject" class="font-semibold text-xl text-gray-600"></h2>
+              <h2
+                id="dashboardteacherSubject"
+                class="font-semibold text-xl text-gray-600"
+              ></h2>
             </div>
           </header>
 
@@ -318,7 +381,18 @@
                 </select>
               </div>
 
-              <!-- Selected day's lessons -->
+             <!--Empty state for mobile  -->
+              <div
+                id="mobileTimetableEmptyState"
+                class="hidden rounded-xl bg-gray-100 p-6 text-center"
+              >
+                <h3 class="font-semibold">No lessons scheduled</h3>
+                <p class="mt-2 text-sm text-gray-500">
+                  You have no lessons scheduled for this day.
+                </p>
+              </div>
+                <!-- Selected day's lessons -->
+                 
               <div id="mobileTimetableContent" class="space-y-3"></div>
             </div>
           </div>
@@ -579,6 +653,9 @@
         </div>
       </section>
     </main>
+    <footer>
+      <p class="text-sm text-grat">v1.0.1</p>
+    </footer>
 
     <script type="module" src="./js/app.js"></script>
   </body>

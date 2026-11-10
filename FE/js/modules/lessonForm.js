@@ -4,6 +4,7 @@ import { getWeeklyLessons, saveWeeklyLessons } from "../services/storage.js";
 import { closeLessonFormModal } from "./lessonModal.js";
 import { renderTimetableBody, updateTimetableVisibility } from "./timeTableRenderer.js";
 import { teachingPeriods } from "./schoolPeriods.js";
+import { renderMobileTimetable } from "./mobileTimetable.js";
 
 export function initializeLessonForm() {
   // Your implementation
@@ -68,6 +69,8 @@ export function initializeLessonForm() {
       weeklyLessons.push(lessonRecord);
 
       saveWeeklyLessons(weeklyLessons);
+
+      renderMobileTimetable()
 
       updateTimetableVisibility();
 
