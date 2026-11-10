@@ -74,12 +74,7 @@ export function initializeLessonForm() {
 
       updateTimetableVisibility();
 
-    //   document.getElementById("emptyTimetableState").classList.add("hidden");
-
-    //   document
-    //     .getElementById("weeklyTimetableContainer")
-    //     .classList.remove("hidden");
-
+   
       renderTimetableBody();
 
       document.getElementById("addLessonForm").reset();

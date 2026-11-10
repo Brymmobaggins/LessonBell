@@ -68,5 +68,5 @@ export function initializeMobileTimetable() {
 
   mobileDaySelect.addEventListener("change", renderMobileTimetable);
 
-  renderTimetableBody();
+  renderMobileTimetable();
 }
