@@ -601,6 +601,9 @@
     --tw-tracking: var(--tracking-widest);
     letter-spacing: var(--tracking-widest);
   }
+  .text-nowrap {
+    text-wrap: nowrap;
+  }
   .break-words {
     overflow-wrap: break-word;
   }
