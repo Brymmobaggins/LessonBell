@@ -52,7 +52,7 @@
         id="welcomeScreen"
         class="hidden min-h-screen flex-col items-center justify-center px-3"
       >
-        <div class="text-2xl sm:text-4xl">Welcome to LessonBell</div>
+        <div class="text-2xl sm:text-4xl font-bold">Welcome to LessonBell</div>
         <div class="text-sm sm:text-base mt-4 text-center text-gray-600">
           Your teaching period, never missed.
         </div>
@@ -123,9 +123,11 @@
                 id="subject"
                 name="subject"
                 required
-                class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 bg-white outline-none focus:border-gray-800 px-2 py-3 "
+                class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 bg-white outline-none focus:border-gray-800 px-2 py-3"
               >
-                <option disabled selected value="" class="text-gray-600">Select your subject</option>
+                <option disabled selected value="" class="text-gray-600">
+                  Select your subject
+                </option>
 
                 <option value="Agricultural Science">
                   Agricultural Science
@@ -223,13 +225,13 @@
 
               <h2
                 id="dashboardteacherSubject"
-                class="font-semibold text-xl text-gray-600"
+                class="font-semibold text-xl"
               ></h2>
             </div>
           </header>
 
           <!-- Current Date -->
-          <p id="dashboardCurrentDate" class="mt-6 text-sm text-gray-600"></p>
+          <p id="dashboardCurrentDate" class="mt-5 text-sm text-gray-600"></p>
 
           <!-- Dashboard Statistics -->
           <div class="mt-8 grid grid-cols-2 gap-4">
@@ -411,7 +413,7 @@
             <div
               class="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-xl"
             >
-              <form id="addLessonForm" class="mt-8 space-y-5">
+              <form id="addLessonForm" class="mt-8 hidden space-y-5">
                 <!-- Subject -->
                 <div>
                   <label
@@ -655,6 +657,114 @@
                   </button>
                 </div>
               </form>
+
+              <!-- Weekly Timetable Configuration -->
+              <section id="timetableConfiguration" class="hidde space-y-6">
+                <!-- Configuration Header -->
+                <div>
+                  <h2 class="text-xl font-bold text-gray-600">
+                    Configure Your Timetable
+                  </h2>
+                  <p class="mt-1 text-sm text-gray-600">
+                    Assign your classes to their respective teaching periods.
+                  </p>
+                </div>
+
+                <!-- Teacher Subject -->
+                <div class="rounded-xl bg-gray-50 border border-gray-200 p-3">
+                  <p class="text-xs font-medium text-gray-500">
+                    TEACHING SUBJECT
+                  </p>
+                  <p
+                    id="configurationSubject"
+                    class="mt-1 font-semibold text-gray-600"
+                  >
+                    Mathematics
+                  </p>
+                </div>
+
+                <!-- Weekday Navigation -->
+                <div>
+                  <h3 class="mb-1 text-sm font-semibold text-gray-600">
+                    Select Teaching Day
+                  </h3>
+
+                  <div id="weekdayNavigation" class="flex flex-nowrap gap-2 w-full">
+                    <button
+                      type="button"
+                      data-day="Monday"
+                      aria-pressed="true"
+                      class="flex-1 min-w-0 rounded-lg bg-gray-800 px-2 py-3 text-xs font-semibold text-white  cursor-pointer"
+                    >
+                      Mon
+                    </button>
+
+                    <button
+                      type="button"
+                      data-day="Tuesday"
+                      aria-pressed="false"
+                      class="flex-1 min-w-0 rounded-lg bg-gray-100 px-2 py-3 text-xs font-semibold text-gray-600 cursor-pointer"
+                    >
+                      Tue
+                    </button>
+
+                    <button
+                      type="button"
+                      data-day="Wednesday"
+                      aria-pressed="false"
+                      class="flex-1 min-w-0 rounded-lg bg-gray-100 px-2 py-3 text-xs font-semibold text-gray-600 cursor-pointer"
+                    >
+                      Wed
+                    </button>
+
+                    <button
+                      type="button"
+                      data-day="Thursday"
+                      aria-pressed="false"
+                      class="flex-1 min-w-0 rounded-lg bg-gray-100 px-2 py-3 text-xs font-semibold text-gray-600 cursor-pointer"
+                    >
+                      Thu
+                    </button>
+
+                    <button
+                      type="button"
+                      data-day="Friday"
+                      aria-pressed="false"
+                      class="flex-1 min-w-0 rounded-lg bg-gray-100 px-2 py-3 text-xs font-semibold text-gray-600 cursor-pointer"
+                    >
+                      Fri
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Daily Timetable -->
+                <div>
+                  <div class="mb-4 flex items-center justify-between">
+                    <h3 id="selectedDayHeading" class="font-semibold text-gray-600">
+                      Monday's Lessons
+                    </h3>
+
+                    <span id="dailyLessonCount" class="text-xs text-gray-600">
+                      0 assigned
+                    </span>
+                  </div>
+
+                  <div id="dailyTimetableContainer" class="space-y-3">
+                    <!-- Teaching periods will be generated here -->
+                  </div>
+                </div>
+
+                <!-- Save Action -->
+                <div class="border-t border-gray-200 pt-4">
+                  <button
+                    id="saveDailyTimetableBtn"
+                    type="button"
+                    class="w-full rounded-xl bg-gray-800 px-4 py-3 font-semibold text-white transition-colors hover:bg-gray-700"
+                  >
+                    Save Monday's Timetable
+                  </button>
+                </div>
+              </section>
             </div>
           </div>
         </div>

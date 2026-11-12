@@ -7,6 +7,7 @@ import { initializeTeacherProfile } from "./modules/teacherProfile.js";
 import { initializeTimetable } from "./modules/timeTable.js";
 import { initializeDashboard } from "./modules/dashboard.js";
 import { initializeMobileTimetable } from "./modules/mobileTimetable.js";
+import { initializeTimetableConfiguration } from "./modules/timetableConfig.js";
 
 showScreen("splashScreen");
 initializeSplashScreen();
@@ -19,3 +20,5 @@ initializeTimetable();
 initializeDashboard();
 
 initializeMobileTimetable();
+
+initializeTimetableConfiguration()
