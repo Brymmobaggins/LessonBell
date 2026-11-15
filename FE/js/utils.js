@@ -21,4 +21,15 @@ export function convertTimeToMinutes(time) {
 
   return totalMin;
 }
-  
+
+export function updateDailyCountLesson(dropdownArr) {
+  let count = 0;
+
+  dropdownArr.forEach((dropdown) => {
+    if (dropdown.value !== "" && dropdown.value !== "add-new-class") {
+      count++;
+    }
+  });
+
+  return count;
+}

@@ -1,16 +1,38 @@
 /** @format */
 
 import { schoolPeriods } from "./schoolPeriods.js";
+import { getTeacherClasses, saveTeacherClasses } from "../services/storage.js";
+import { updateDailyCountLesson } from "../utils.js";
 
 export function initializeTimetableConfiguration() {
   const weekdayNavigation = document.getElementById("weekdayNavigation");
   const selectedDayHeading = document.getElementById("selectedDayHeading");
+  const dailyLessonCount = document.getElementById("dailyLessonCount");
 
   const saveDailyTimetableBtn = document.getElementById(
     "saveDailyTimetableBtn",
   );
 
   let selectedDay = "Monday";
+
+  function refreshDailyCount() {
+    const dropdownArr = dailyTimetableContainer.querySelectorAll(
+      "select[data-period-id]",
+    );
+
+    const assignedCount = updateDailyCountLesson(dropdownArr);
+
+    if (dailyLessonCount) {
+      dailyLessonCount.textContent = `${assignedCount} assigned`;
+      dailyLessonCount.classList.toggle("text-green-700", assignedCount > 0)
+
+      dailyLessonCount.classList.toggle("text-gray-500", assignedCount === 0)
+
+      dailyLessonCount.classList.toggle("bg-green-50", assignedCount > 0)
+
+      dailyLessonCount.classList.toggle("bg-gray-100", assignedCount === 0)
+    }
+  }
 
   if (weekdayNavigation) {
     weekdayNavigation.addEventListener("click", (event) => {
@@ -24,7 +46,7 @@ export function initializeTimetableConfiguration() {
 
       saveDailyTimetableBtn.textContent = `Save ${selectedDay}'s TimeTable`;
 
-      const dayButtons = document.querySelectorAll("button[data-day]");
+      const dayButtons = weekdayNavigation.querySelectorAll("button[data-day]");
 
       dayButtons.forEach((button) => {
         const isActive = button.dataset.day === selectedDay;
@@ -38,6 +60,134 @@ export function initializeTimetableConfiguration() {
       });
     });
   }
+
+  const dailyTimetableContainer = document.getElementById(
+    "dailyTimetableContainer",
+  );
+
+  const classCreationPanel = document.getElementById("classCreationPanel");
+  const newClassInput = document.getElementById("newClassInput");
+
+  let selectedPeriodId = null;
+
+  if (!dailyTimetableContainer || !classCreationPanel || !newClassInput) {
+    return;
+  }
+
+  dailyTimetableContainer.addEventListener("change", (event) => {
+    const clickedDropdown = event.target.closest("select[data-period-id]");
+
+    if (!clickedDropdown) return;
+
+    if (clickedDropdown.value === "add-new-class") {
+      selectedPeriodId = clickedDropdown.dataset.periodId;
+
+      clickedDropdown.value = "";
+
+      classCreationPanel.classList.remove("hidden");
+
+      newClassInput.focus();
+    }
+
+    refreshDailyCount();
+  });
+
+  const cancelNewClassBtn = document.getElementById("cancelNewClassBtn");
+  if (cancelNewClassBtn) {
+    cancelNewClassBtn.addEventListener("click", () => {
+      classCreationPanel.classList.add("hidden");
+
+      newClassInput.value = "";
+      newClassInput.classList.remove("border-red-500");
+
+      classCreationFeedback.textContent = "";
+      classCreationFeedback.classList.add("hidden");
+
+      selectedPeriodId = null;
+    });
+  }
+
+  const saveNewClassBtn = document.getElementById("saveNewClassBtn");
+  const classCreationFeedback = document.getElementById(
+    "classCreationFeedback",
+  );
+
+  if (saveNewClassBtn) {
+    saveNewClassBtn.addEventListener("click", () => {
+      const newClassName = newClassInput.value.trim();
+
+      if (!newClassName) {
+        classCreationFeedback.textContent = "Please enter a class name.";
+
+        classCreationFeedback.classList.remove("hidden");
+
+        newClassInput.classList.add("border-red-500");
+
+        return;
+      }
+
+      const classesArr = getTeacherClasses();
+
+      const isDuplicate = classesArr.some((existingClass) => {
+        return (
+          existingClass.trim().toLowerCase() === newClassName.toLowerCase()
+        );
+      });
+
+      if (isDuplicate) {
+        classCreationFeedback.textContent =
+          "This class has already been added.";
+
+        classCreationFeedback.classList.remove("hidden");
+
+        newClassInput.classList.add("border-red-500");
+
+        return;
+      }
+
+      classesArr.push(newClassName);
+
+      saveTeacherClasses(classesArr);
+
+      const allPeriodDropdowns = dailyTimetableContainer.querySelectorAll(
+        "select[data-period-id]",
+      );
+      allPeriodDropdowns.forEach((dropdown) => {
+        const option = document.createElement("option");
+
+        option.value = newClassName;
+        option.textContent = newClassName;
+
+        const addNewClassOption = dropdown.querySelector(
+          'option[value="add-new-class"]',
+        );
+
+        dropdown.insertBefore(option, addNewClassOption);
+
+        if (dropdown.dataset.periodId === selectedPeriodId) {
+          dropdown.value = newClassName;
+
+          dropdown.classList.replace("border-gray-200", "border-gray-400");
+          dropdown.classList.replace("bg-gray-50", "bg-white");
+          dropdown.classList.replace("text-gray-600", "text-gray-900");
+          dropdown.classList.add("font-medium");
+        }
+      });
+
+      classCreationPanel.classList.add("hidden");
+
+      newClassInput.value = "";
+
+      classCreationFeedback.classList.add("hidden");
+
+      selectedPeriodId = null;
+
+      newClassInput.classList.remove("border-red-500");
+
+      console.log("Saved classes:", getTeacherClasses());
+    });
+  }
+
   renderDailyPeriods();
 }
 
@@ -48,6 +198,8 @@ export function renderDailyPeriods() {
 
   if (!dailyTimetableContainer) return;
   dailyTimetableContainer.replaceChildren();
+
+  const classesArr = getTeacherClasses();
 
   schoolPeriods.forEach((period) => {
     if (period.type === "break") {
@@ -99,11 +251,24 @@ export function renderDailyPeriods() {
     defaultOption.selected = true;
 
     periodMeta.append(periodEl, timeEl);
-    
+
     classSelect.appendChild(defaultOption);
 
     periodCard.append(periodMeta, classSelect);
 
+    classesArr.forEach((classGrade) => {
+      const optionElforClass = document.createElement("option");
+      optionElforClass.value = classGrade;
+      optionElforClass.textContent = classGrade;
+
+      classSelect.appendChild(optionElforClass);
+    });
+
+    const lastOptionEl = document.createElement("option");
+    lastOptionEl.value = "add-new-class";
+    lastOptionEl.textContent = "+ Add New Class";
+
+    classSelect.appendChild(lastOptionEl);
 
     if (period.breakFor) {
       const breakLabel = document.createElement("p");

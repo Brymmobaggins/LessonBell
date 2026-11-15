@@ -4,6 +4,8 @@
 
 const TEACHER_STORAGE_KEY = "lesson_bell_teacher_profile";
 const WEEKLY_STORAGE_KEY = "lesson_bell_weekly_lessons"
+const TEACHER_CLASSES_STORAGE_KEY = "lesson_bell_teacher_classes"
+
 
 
 export function saveWeeklyLessons(weeklyLessons){
@@ -40,5 +42,30 @@ export function getTeacherProfile() {
     return JSON.parse(savedTeacherProfile);
   } catch (error) {
     return null;
+  }
+}
+
+export function saveTeacherClasses(teacherClasses) {
+  localStorage.setItem(
+    TEACHER_CLASSES_STORAGE_KEY,
+    JSON.stringify(teacherClasses),
+  );
+}
+
+export function getTeacherClasses() {
+  const savedTeacherClasses = localStorage.getItem(
+    TEACHER_CLASSES_STORAGE_KEY,
+  );
+
+  if (!savedTeacherClasses) {
+    return [];
+  }
+
+  try {
+    const parsedClasses = JSON.parse(savedTeacherClasses);
+
+    return Array.isArray(parsedClasses) ? parsedClasses : [];
+  } catch (error) {
+    return [];
   }
 }

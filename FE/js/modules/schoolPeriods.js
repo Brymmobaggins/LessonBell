@@ -67,27 +67,28 @@ export const schoolPeriods = [
     breakFor: "senior",
   },
   {
-    id: 10,
+    id: 9,
     label: "Period 9",
     startTime: "01:30 PM",
     endTime: "02:10 PM",
     type: "lesson"
   },
   {
-    id: 11,
+    id: 10,
     label: "Period 10",
     startTime: "02:10 PM",
-    endTime: "02:55 PM",
+    endTime: "02:50 PM",
     type: "lesson",
   },
 
   {
-    id: 12,
+    id: 11,
     label: "Period 11",
-    startTime: "02:55 PM",
+    startTime: "02:50 PM",
     endTime: "03:30 PM",
     type: "lesson",
   },
+
 ];
 export const teachingPeriods = schoolPeriods.filter((period) => {
   return period.type === "lesson";

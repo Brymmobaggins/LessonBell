@@ -689,12 +689,15 @@
                     Select Teaching Day
                   </h3>
 
-                  <div id="weekdayNavigation" class="flex flex-nowrap gap-2 w-full">
+                  <div
+                    id="weekdayNavigation"
+                    class="flex flex-nowrap gap-2 w-full"
+                  >
                     <button
                       type="button"
                       data-day="Monday"
                       aria-pressed="true"
-                      class="flex-1 min-w-0 rounded-lg bg-gray-800 px-2 py-3 text-xs font-semibold text-white  cursor-pointer"
+                      class="flex-1 min-w-0 rounded-lg bg-gray-800 px-2 py-3 text-xs font-semibold text-white cursor-pointer"
                     >
                       Mon
                     </button>
@@ -740,13 +743,66 @@
                 <!-- Daily Timetable -->
                 <div>
                   <div class="mb-4 flex items-center justify-between">
-                    <h3 id="selectedDayHeading" class="font-semibold text-gray-600">
+                    <h3
+                      id="selectedDayHeading"
+                      class="text-lg font-semibold text-gray-700"
+                    >
                       Monday's Lessons
                     </h3>
 
-                    <span id="dailyLessonCount" class="text-xs text-gray-600">
-                      0 assigned
-                    </span>
+                   <span
+  id="dailyLessonCount"
+  class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-500 transition-colors duration-200"
+>
+  0 assigned
+</span>
+                  </div>
+
+                  <!-- Add New Class Panel -->
+                  <div
+                    id="classCreationPanel"
+                    class="hidden rounded-xl border border-gray-200 bg-gray-50 p-4 space-y-2.5"
+                  >
+                    <div class="flex items-center justify-between">
+                      <h3 class="text-sm font-semibold text-gray-800">
+                        Add a New Class
+                      </h3>
+
+                      <button
+                        type="button"
+                        id="cancelNewClassBtn"
+                        class="text-sm text-gray-500 hover:text-gray-800"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+
+                    <p class="text-xs text-gray-500">
+                      Enter the class assigned to you by your school.
+                    </p>
+
+                    <input
+                      type="text"
+                      id="newClassInput"
+                      placeholder="e.g. Grade 8 Wisdom"
+                      maxlength="60"
+                      autocomplete="off"
+                      class="w-full rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+                    />
+
+                    <p
+                      id="classCreationFeedback"
+                      class="hidden text-xs"
+                      aria-live="polite"
+                    ></p>
+
+                    <button
+                      type="button"
+                      id="saveNewClassBtn"
+                      class="w-full rounded-lg bg-gray-800 px-4 py-3 text-sm font-semibold text-white hover:bg-gray-700"
+                    >
+                      Save Class
+                    </button>
                   </div>
 
                   <div id="dailyTimetableContainer" class="space-y-3">
