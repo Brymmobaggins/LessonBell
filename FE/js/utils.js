@@ -33,3 +33,21 @@ export function updateDailyCountLesson(dropdownArr) {
 
   return count;
 }
+
+export function updateDropdownAppearance(dropdown) {
+  const hasClass = dropdown.value !== "" && dropdown.value !== "add-new-class";
+
+  if (hasClass) {
+    dropdown.classList.replace("bg-gray-50", "bg-white");
+    dropdown.classList.replace("border-gray-200", "border-gray-400");
+    dropdown.classList.replace("text-gray-600", "text-gray-900");
+
+    dropdown.classList.add("font-medium");
+  } else {
+    dropdown.classList.replace("bg-white", "bg-gray-50");
+    dropdown.classList.replace("border-gray-400", "border-gray-200");
+    dropdown.classList.replace("text-gray-900", "text-gray-600");
+
+    dropdown.classList.remove("font-medium");
+  }
+}

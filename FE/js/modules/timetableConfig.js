@@ -1,8 +1,14 @@
 /** @format */
 
 import { schoolPeriods } from "./schoolPeriods.js";
-import { getTeacherClasses, saveTeacherClasses } from "../services/storage.js";
-import { updateDailyCountLesson } from "../utils.js";
+import {
+  getTeacherClasses,
+  saveTeacherClasses,
+  getWeeklyLessons,
+  saveWeeklyLessons,
+  getTeacherProfile,
+} from "../services/storage.js";
+import { updateDailyCountLesson, updateDropdownAppearance } from "../utils.js";
 
 export function initializeTimetableConfiguration() {
   const weekdayNavigation = document.getElementById("weekdayNavigation");
@@ -12,8 +18,48 @@ export function initializeTimetableConfiguration() {
   const saveDailyTimetableBtn = document.getElementById(
     "saveDailyTimetableBtn",
   );
+  const dailySaveFeedback = document.getElementById(
+  "dailySaveFeedback",
+);
 
   let selectedDay = "Monday";
+
+  const dailyAssignments = {
+    Monday: {},
+    Tuesday: {},
+    Wednesday: {},
+    Thursday: {},
+    Friday: {},
+  };
+
+  const savedLessonsArr = getWeeklyLessons();
+
+  savedLessonsArr.forEach((lesson) => {
+    const day = lesson.day;
+    const periodId = lesson.periodId;
+    const className = lesson.class;
+
+    if (Object.hasOwn(dailyAssignments, day) && periodId != null && className) {
+      dailyAssignments[day][periodId] = className;
+    }
+  });
+
+  function captureCurrentDayAssignment() {
+    const dropdownArr = dailyTimetableContainer.querySelectorAll(
+      "select[data-period-id]",
+    );
+    dailyAssignments[selectedDay] = {};
+
+    dropdownArr.forEach((dropdown) => {
+      const periodId = dropdown.dataset.periodId;
+
+      const selectedClass = dropdown.value;
+
+      if (selectedClass !== "" && selectedClass !== "add-new-class") {
+        dailyAssignments[selectedDay][periodId] = selectedClass;
+      }
+    });
+  }
 
   function refreshDailyCount() {
     const dropdownArr = dailyTimetableContainer.querySelectorAll(
@@ -24,15 +70,41 @@ export function initializeTimetableConfiguration() {
 
     if (dailyLessonCount) {
       dailyLessonCount.textContent = `${assignedCount} assigned`;
-      dailyLessonCount.classList.toggle("text-green-700", assignedCount > 0)
 
-      dailyLessonCount.classList.toggle("text-gray-500", assignedCount === 0)
+      dailyLessonCount.classList.toggle("text-green-700", assignedCount > 0);
 
-      dailyLessonCount.classList.toggle("bg-green-50", assignedCount > 0)
+      dailyLessonCount.classList.toggle("text-gray-500", assignedCount === 0);
 
-      dailyLessonCount.classList.toggle("bg-gray-100", assignedCount === 0)
+      dailyLessonCount.classList.toggle("bg-green-50", assignedCount > 0);
+
+      dailyLessonCount.classList.toggle("bg-gray-100", assignedCount === 0);
     }
   }
+
+  function loadSelectedDayAssignment() {
+    const dropdownArr = dailyTimetableContainer.querySelectorAll(
+      "select[data-period-id]",
+    );
+
+    dropdownArr.forEach((dropdown) => {
+      const periodId = dropdown.dataset.periodId;
+
+      const selectedClass = dailyAssignments[selectedDay][periodId] ?? "";
+      dropdown.value = selectedClass;
+
+      updateDropdownAppearance(dropdown);
+    });
+    refreshDailyCount();
+  }
+
+
+  function clearDailySaveFeedback(){
+      if(!dailySaveFeedback) return
+
+      dailySaveFeedback.textContent = ""
+      dailySaveFeedback.classList.add("hidden")
+  }
+
 
   if (weekdayNavigation) {
     weekdayNavigation.addEventListener("click", (event) => {
@@ -40,7 +112,13 @@ export function initializeTimetableConfiguration() {
 
       if (!clickedButton) return;
 
+      clearDailySaveFeedback()
+
+      captureCurrentDayAssignment();
+
       selectedDay = clickedButton.dataset.day;
+
+      loadSelectedDayAssignment();
 
       selectedDayHeading.textContent = `${selectedDay}'s Lessons`;
 
@@ -78,6 +156,10 @@ export function initializeTimetableConfiguration() {
     const clickedDropdown = event.target.closest("select[data-period-id]");
 
     if (!clickedDropdown) return;
+
+    clearDailySaveFeedback()
+
+    updateDropdownAppearance(clickedDropdown);
 
     if (clickedDropdown.value === "add-new-class") {
       selectedPeriodId = clickedDropdown.dataset.periodId;
@@ -167,10 +249,9 @@ export function initializeTimetableConfiguration() {
         if (dropdown.dataset.periodId === selectedPeriodId) {
           dropdown.value = newClassName;
 
-          dropdown.classList.replace("border-gray-200", "border-gray-400");
-          dropdown.classList.replace("bg-gray-50", "bg-white");
-          dropdown.classList.replace("text-gray-600", "text-gray-900");
-          dropdown.classList.add("font-medium");
+          updateDropdownAppearance(dropdown);
+
+      
         }
       });
 
@@ -188,7 +269,59 @@ export function initializeTimetableConfiguration() {
     });
   }
 
+  if (saveDailyTimetableBtn) {
+    saveDailyTimetableBtn.addEventListener("click", () => {
+      captureCurrentDayAssignment();
+
+      const savedLessonsArr = getWeeklyLessons();
+
+      const otherDaysLessonsArr = savedLessonsArr.filter((lesson) => {
+        return lesson.day !== selectedDay;
+      });
+
+      const teacherProfile = getTeacherProfile();
+
+      const dayAssignment = dailyAssignments[selectedDay];
+
+      const newDayArr = [];
+
+      Object.entries(dayAssignment).forEach((assignment) => {
+        const [periodId, className] = assignment;
+
+        const selectedPeriod = schoolPeriods.find((period) => {
+          return period.id === Number(periodId);
+        });
+
+        if (!selectedPeriod) return;
+
+        const lessonRecord = {
+          subject: teacherProfile.subject,
+          class: className,
+          day: selectedDay,
+          periodId: selectedPeriod.id,
+          startTime: selectedPeriod.startTime,
+          endTime: selectedPeriod.endTime,
+        };
+
+        newDayArr.push(lessonRecord);
+      });
+      refreshDailyCount()
+
+      const updatedWeeklyLessons = [...otherDaysLessonsArr, ...newDayArr];
+
+      saveWeeklyLessons(updatedWeeklyLessons);
+
+      if (dailySaveFeedback) {
+        dailySaveFeedback.textContent = `${selectedDay}'s timetable has been saved successfully!`;
+
+        dailySaveFeedback.classList.remove("hidden");
+      }
+    });
+  }
+
   renderDailyPeriods();
+
+  loadSelectedDayAssignment();
 }
 
 export function renderDailyPeriods() {

@@ -501,9 +501,6 @@
   .bg-green-100 {
     background-color: var(--color-green-100);
   }
-  .bg-red-200 {
-    background-color: var(--color-red-200);
-  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -632,12 +629,6 @@
   .text-amber-700 {
     color: var(--color-amber-700);
   }
-  .text-blue-50 {
-    color: var(--color-blue-50);
-  }
-  .text-blue-200 {
-    color: var(--color-blue-200);
-  }
   .text-blue-700 {
     color: var(--color-blue-700);
   }
@@ -659,14 +650,8 @@
   .text-gray-900 {
     color: var(--color-gray-900);
   }
-  .text-green-200 {
-    color: var(--color-green-200);
-  }
   .text-green-700 {
     color: var(--color-green-700);
-  }
-  .text-red-200 {
-    color: var(--color-red-200);
   }
   .text-white {
     color: var(--color-white);

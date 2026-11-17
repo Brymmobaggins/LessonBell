@@ -73,7 +73,7 @@ export function renderMobileTimetable() {
     mobileTimetableContent.appendChild(cardDiv);
   });
 
-  co
+
 
 
 }
