@@ -9,6 +9,7 @@ import {
   getTeacherProfile,
 } from "../services/storage.js";
 import { updateDailyCountLesson, updateDropdownAppearance } from "../utils.js";
+import { closeTimetableConfigurationModal } from "./lessonModal.js";
 
 export function initializeTimetableConfiguration() {
   const weekdayNavigation = document.getElementById("weekdayNavigation");
@@ -18,9 +19,33 @@ export function initializeTimetableConfiguration() {
   const saveDailyTimetableBtn = document.getElementById(
     "saveDailyTimetableBtn",
   );
-  const dailySaveFeedback = document.getElementById(
-  "dailySaveFeedback",
-);
+  const dailySaveFeedback = document.getElementById("dailySaveFeedback");
+  const backToDashboardBtn = document.getElementById("backToDashboardBtn");
+  const unsavedChangesModal = document.getElementById("unsavedChangesModal");
+  const stayOnTimetableBtn = document.getElementById("stayOnTimetableBtn");
+  const leaveWithoutSavingBtn = document.getElementById(
+    "leaveWithoutSavingBtn",
+  );
+
+  if (backToDashboardBtn) {
+    backToDashboardBtn.addEventListener("click", () => {
+      if (unsavedDays.size > 0) {
+        unsavedChangesModal.classList.remove("hidden");
+        unsavedChangesModal.classList.add("flex");
+
+        return;
+      }
+
+      closeTimetableConfigurationModal();
+    });
+  }
+
+  if (stayOnTimetableBtn) {
+    stayOnTimetableBtn.addEventListener("click", () => {
+      unsavedChangesModal.classList.add("hidden");
+      unsavedChangesModal.classList.remove("flex");
+    });
+  }
 
   let selectedDay = "Monday";
 
@@ -32,17 +57,45 @@ export function initializeTimetableConfiguration() {
     Friday: {},
   };
 
-  const savedLessonsArr = getWeeklyLessons();
+  const unsavedDays = new Set();
 
-  savedLessonsArr.forEach((lesson) => {
-    const day = lesson.day;
-    const periodId = lesson.periodId;
-    const className = lesson.class;
+  function restoreSavedAssignments() {
+    Object.keys(dailyAssignments).forEach((day) => {
+      dailyAssignments[day] = {};
+    });
 
-    if (Object.hasOwn(dailyAssignments, day) && periodId != null && className) {
-      dailyAssignments[day][periodId] = className;
-    }
-  });
+    const savedLessonsArr = getWeeklyLessons();
+
+    savedLessonsArr.forEach((lesson) => {
+      const day = lesson.day;
+      const periodId = lesson.periodId;
+      const className = lesson.class;
+
+      if (
+        Object.hasOwn(dailyAssignments, day) &&
+        periodId != null &&
+        className
+      ) {
+        dailyAssignments[day][periodId] = className;
+      }
+    });
+
+    unsavedDays.clear();
+  }
+
+  if (leaveWithoutSavingBtn) {
+    leaveWithoutSavingBtn.addEventListener("click", () => {
+      // Restore previously saved assignments
+      restoreSavedAssignments();
+
+      loadSelectedDayAssignment();
+
+      unsavedChangesModal.classList.add("hidden");
+      unsavedChangesModal.classList.remove("flex");
+
+      closeTimetableConfigurationModal();
+    });
+  }
 
   function captureCurrentDayAssignment() {
     const dropdownArr = dailyTimetableContainer.querySelectorAll(
@@ -61,6 +114,35 @@ export function initializeTimetableConfiguration() {
     });
   }
 
+  function updateUnsavedDayStatus(day) {
+    const savedDayAssignment = {};
+
+    const savedLessonsArr = getWeeklyLessons();
+
+    savedLessonsArr.forEach((lesson) => {
+      if (lesson.day === day) {
+        savedDayAssignment[lesson.periodId] = lesson.class;
+      }
+    });
+
+    const currentDayAssignment = dailyAssignments[day];
+
+    const currentPeriodIds = Object.keys(currentDayAssignment);
+    const savedPeriodIds = Object.keys(savedDayAssignment);
+
+    const hasChanges =
+      currentPeriodIds.length !== savedPeriodIds.length ||
+      currentPeriodIds.some((periodId) => {
+        return currentDayAssignment[periodId] !== savedDayAssignment[periodId];
+      });
+
+    if (hasChanges) {
+      unsavedDays.add(day);
+    } else {
+      unsavedDays.delete(day);
+    }
+  }
+
   function refreshDailyCount() {
     const dropdownArr = dailyTimetableContainer.querySelectorAll(
       "select[data-period-id]",
@@ -69,7 +151,7 @@ export function initializeTimetableConfiguration() {
     const assignedCount = updateDailyCountLesson(dropdownArr);
 
     if (dailyLessonCount) {
-      dailyLessonCount.textContent = `${assignedCount} assigned`;
+      dailyLessonCount.textContent = `${assignedCount < 1 ? "No" : assignedCount} class${assignedCount > 1 ? "es" : ""} assigned`;
 
       dailyLessonCount.classList.toggle("text-green-700", assignedCount > 0);
 
@@ -97,14 +179,12 @@ export function initializeTimetableConfiguration() {
     refreshDailyCount();
   }
 
+  function clearDailySaveFeedback() {
+    if (!dailySaveFeedback) return;
 
-  function clearDailySaveFeedback(){
-      if(!dailySaveFeedback) return
-
-      dailySaveFeedback.textContent = ""
-      dailySaveFeedback.classList.add("hidden")
+    dailySaveFeedback.textContent = "";
+    dailySaveFeedback.classList.add("hidden");
   }
-
 
   if (weekdayNavigation) {
     weekdayNavigation.addEventListener("click", (event) => {
@@ -112,7 +192,7 @@ export function initializeTimetableConfiguration() {
 
       if (!clickedButton) return;
 
-      clearDailySaveFeedback()
+      clearDailySaveFeedback();
 
       captureCurrentDayAssignment();
 
@@ -157,19 +237,29 @@ export function initializeTimetableConfiguration() {
 
     if (!clickedDropdown) return;
 
-    clearDailySaveFeedback()
-
-    updateDropdownAppearance(clickedDropdown);
+    clearDailySaveFeedback();
 
     if (clickedDropdown.value === "add-new-class") {
       selectedPeriodId = clickedDropdown.dataset.periodId;
 
       clickedDropdown.value = "";
 
+      updateDropdownAppearance(clickedDropdown);
+
       classCreationPanel.classList.remove("hidden");
 
       newClassInput.focus();
+
+      return;
     }
+
+    captureCurrentDayAssignment();
+
+    updateUnsavedDayStatus(selectedDay);
+
+console.log("Unsaved weekdays:", [...unsavedDays]);
+
+    updateDropdownAppearance(clickedDropdown);
 
     refreshDailyCount();
   });
@@ -250,10 +340,13 @@ export function initializeTimetableConfiguration() {
           dropdown.value = newClassName;
 
           updateDropdownAppearance(dropdown);
-
-      
         }
       });
+      captureCurrentDayAssignment();
+
+      updateUnsavedDayStatus(selectedDay);
+
+      refreshDailyCount();
 
       classCreationPanel.classList.add("hidden");
 
@@ -266,6 +359,7 @@ export function initializeTimetableConfiguration() {
       newClassInput.classList.remove("border-red-500");
 
       console.log("Saved classes:", getTeacherClasses());
+      console.log("Unsaved weekdays:", [...unsavedDays]);
     });
   }
 
@@ -282,6 +376,11 @@ export function initializeTimetableConfiguration() {
       const teacherProfile = getTeacherProfile();
 
       const dayAssignment = dailyAssignments[selectedDay];
+
+      if (Object.keys(dayAssignment).length > 0 && !teacherProfile?.subject) {
+        alert("Please complete your teacher profile before saving.");
+        return;
+      }
 
       const newDayArr = [];
 
@@ -305,11 +404,15 @@ export function initializeTimetableConfiguration() {
 
         newDayArr.push(lessonRecord);
       });
-      refreshDailyCount()
+
+      refreshDailyCount();
 
       const updatedWeeklyLessons = [...otherDaysLessonsArr, ...newDayArr];
 
       saveWeeklyLessons(updatedWeeklyLessons);
+
+      unsavedDays.delete(selectedDay);
+      console.log(unsavedDays);
 
       if (dailySaveFeedback) {
         dailySaveFeedback.textContent = `${selectedDay}'s timetable has been saved successfully!`;
@@ -318,6 +421,8 @@ export function initializeTimetableConfiguration() {
       }
     });
   }
+
+  restoreSavedAssignments();
 
   renderDailyPeriods();
 
