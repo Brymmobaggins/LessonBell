@@ -10,6 +10,8 @@ import {
 } from "../services/storage.js";
 import { updateDailyCountLesson, updateDropdownAppearance } from "../utils.js";
 import { closeTimetableConfigurationModal } from "./lessonModal.js";
+import { refreshTimetableViews } from "./timeTable.js";
+
 
 export function initializeTimetableConfiguration() {
   const weekdayNavigation = document.getElementById("weekdayNavigation");
@@ -257,7 +259,7 @@ export function initializeTimetableConfiguration() {
 
     updateUnsavedDayStatus(selectedDay);
 
-console.log("Unsaved weekdays:", [...unsavedDays]);
+    console.log("Unsaved weekdays:", [...unsavedDays]);
 
     updateDropdownAppearance(clickedDropdown);
 
@@ -410,6 +412,8 @@ console.log("Unsaved weekdays:", [...unsavedDays]);
       const updatedWeeklyLessons = [...otherDaysLessonsArr, ...newDayArr];
 
       saveWeeklyLessons(updatedWeeklyLessons);
+
+      refreshTimetableViews();
 
       unsavedDays.delete(selectedDay);
       console.log(unsavedDays);

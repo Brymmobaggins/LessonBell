@@ -135,8 +135,9 @@ export function updateTimetableVisibility() {
 
   const hasLessons = weeklyLessons.length > 0;
 
+  if (!emptyState || !timetableContainer) return hasLessons;
+
   emptyState.classList.toggle("hidden", hasLessons);
   timetableContainer.classList.toggle("hidden", !hasLessons);
-
-  return hasLessons;
 }
+

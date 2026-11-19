@@ -5,11 +5,29 @@ import { convertTimeToMinutes } from "../utils.js";
 import { teachingPeriods } from "./schoolPeriods.js";
 
 export function renderMobileTimetable() {
-  const selectedDay = document.getElementById("mobileDaySelect").value;
+  const mobileDaySelect = document.getElementById("mobileDaySelect");
 
-  const weeeklyLessonsArr = getWeeklyLessons() ?? [];
+  const mobileTimetableContent = document.getElementById(
+    "mobileTimetableContent",
+  );
 
-  const selectedDayLessonsArr = weeeklyLessonsArr.filter((lesson) => {
+  const mobileTimetableEmptyState = document.getElementById(
+    "mobileTimetableEmptyState",
+  );
+
+  if (
+    !mobileDaySelect ||
+    !mobileTimetableContent ||
+    !mobileTimetableEmptyState
+  ) {
+    return;
+  }
+
+  const selectedDay = mobileDaySelect.value;
+
+  const weeklyLessonsArr = getWeeklyLessons();
+
+  const selectedDayLessonsArr = weeklyLessonsArr.filter((lesson) => {
     return lesson.day === selectedDay;
   });
 
@@ -19,17 +37,9 @@ export function renderMobileTimetable() {
     return lessonAStart - lessonBStart;
   });
 
-  const mobileTimetableContent = document.getElementById(
-    "mobileTimetableContent",
-  );
-  const mobileTimetableEmptyState = document.getElementById(
-    "mobileTimetableEmptyState",
-  );
-
-  if (!mobileTimetableContent) return;
   mobileTimetableContent.replaceChildren();
 
-  if (selectedDayLessonsArr.length == 0) {
+  if (selectedDayLessonsArr.length === 0) {
     mobileTimetableEmptyState.classList.remove("hidden");
     mobileTimetableContent.classList.add("hidden");
     return;
@@ -50,11 +60,12 @@ export function renderMobileTimetable() {
     lessonMeta.className = "flex flex-wrap items-center justify-between gap-3";
 
     const periodEl = document.createElement("span");
-    periodEl.className = "text-sm font-semibold text-gray-500 uppercase bg-gray-100 rounded-xl px-2";
+    periodEl.className =
+      "text-sm font-semibold text-gray-500 uppercase bg-gray-100 rounded-xl px-2";
     periodEl.textContent = selectedPeriod?.label ?? "Period";
 
     const timeEl = document.createElement("span");
-    timeEl.textContent = "text-sm text-gray-500 whitespace-nowrap";
+    timeEl.className = "text-sm text-gray-500 whitespace-nowrap";
     timeEl.textContent = `${lesson.startTime} - ${lesson.endTime}`;
 
     const subjectEl = document.createElement("h3");
@@ -63,23 +74,21 @@ export function renderMobileTimetable() {
     subjectEl.textContent = lesson.subject;
 
     const classEl = document.createElement("p");
-    classEl.className = "mt-1 text-sm text-gray-500"
+    classEl.className = "mt-1 text-sm text-gray-500";
     classEl.textContent = lesson.class;
-
-    cardDiv.append(lessonMeta, periodEl, timeEl, subjectEl, classEl);
 
     lessonMeta.append(periodEl, timeEl);
 
+    cardDiv.append(lessonMeta, subjectEl, classEl);
+
     mobileTimetableContent.appendChild(cardDiv);
   });
-
-
-
-
 }
 
 export function initializeMobileTimetable() {
   const mobileDaySelect = document.getElementById("mobileDaySelect");
+
+  if(!mobileDaySelect) return
 
   mobileDaySelect.addEventListener("change", renderMobileTimetable);
 

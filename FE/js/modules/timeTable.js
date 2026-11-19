@@ -1,6 +1,7 @@
 /** @format */
 
 import { showScreen } from "./navigation.js";
+import{renderMobileTimetable} from "./mobileTimetable.js"
 
 import {
   renderTimetableHeader,
@@ -40,4 +41,12 @@ export function initializeTimetable() {
   if (hasLessons) {
     renderTimetableBody();
   }
+}
+
+export function refreshTimetableViews() {
+  updateTimetableVisibility();
+
+  renderTimetableBody();
+
+  renderMobileTimetable();
 }
