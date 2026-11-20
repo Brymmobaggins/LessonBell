@@ -488,8 +488,8 @@ export function renderDailyPeriods() {
     const defaultOption = document.createElement("option");
 
     defaultOption.value = "";
-    defaultOption.textContent = "Select your class";
-    defaultOption.disabled = true;
+    defaultOption.textContent = "Select or clear class";
+   
     defaultOption.selected = true;
 
     periodMeta.append(periodEl, timeEl);

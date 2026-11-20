@@ -52,15 +52,15 @@ export function renderTimetableBody() {
           const subjectElement = document.createElement("div");
           const classElement = document.createElement("div");
 
-          subjectElement.textContent = scheduledLesson.subject;
+          // subjectElement.textContent = scheduledLesson.subject;
           classElement.textContent = scheduledLesson.class;
 
-          subjectElement.className =
-            "text-xs sm:text-sm font-semibold text-gray-900 text-center break-words";
-          classElement.className = "mt-1 text-[11px] text-gray-500 text-center";
+          // subjectElement.className =
+          //   "text-xs sm:text-sm font-semibold text-gray-900 text-center break-words";
+          classElement.className = "text-xs sm:text-sm font-semibold text-gray-900 text-center";
 
           td.appendChild(lessonCard);
-          lessonCard.append(subjectElement, classElement);
+          lessonCard.append(classElement);
         } else {
           td.textContent = " -- ";
         }
